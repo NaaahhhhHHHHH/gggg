@@ -1,89 +1,95 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "Beauty Salon API",
-    "description": "API for Beauty Salon Management",
+    "title": "CRM API",
+    "description": "API for CRM Management",
     "version": "1.0.0"
   },
   "host": "localhost:5000",
   "basePath": "/",
   "tags": [
     {
-      "name": "customers",
-      "description": "API for managing customers"
+      "name": "customer",
+      "description": "API for managing customer"
     },
     {
-      "name": "categories",
-      "description": "API for managing categories"
+      "name": "service",
+      "description": "API for managing service"
     },
     {
-      "name": "services",
-      "description": "API for managing services"
+      "name": "form",
+      "description": "API for managing form"
     },
     {
-      "name": "blogs",
-      "description": "API for managing blogs"
+      "name": "employee",
+      "description": "API for managing employee"
     },
     {
-      "name": "about",
-      "description": "API for managing about"
-    },
-    {
-      "name": "gallery",
+      "name": "job",
       "description": "API for managing gallery"
     },
     {
-      "name": "employees",
-      "description": "API for managing employees"
-    },
-    {
-      "name": "branches",
-      "description": "API for managing branches"
+      "name": "owner",
+      "description": "API for managing owner"
     },
     {
       "name": "auth",
       "description": "API for managing auth"
     },
     {
-      "name": "appointments",
-      "description": "API for managing appointments"
+      "name": "assignment",
+      "description": "API for managing assignment"
     }
   ],
   "schemes": [
     "http"
   ],
   "paths": {
-    "/api/customers": {
+    "/api/customer": {
       "post": {
         "tags": [
-          "customers"
+          "customer"
         ],
         "description": "",
         "parameters": [
           {
-            "name": "Authorization",
-            "in": "header",
-            "type": "string"
-          },
-          {
             "name": "body",
             "in": "body",
-            "description": "customers data.",
-            "required": true,
             "schema": {
               "type": "object",
               "properties": {
                 "name": {
-                  "type": "string",
-                  "example": "hung"
+                  "example": "any"
+                },
+                "username": {
+                  "example": "any"
+                },
+                "password": {
+                  "example": "any"
                 },
                 "email": {
-                  "type": "string",
-                  "example": "1234"
+                  "example": "any"
                 },
-                "phoneNumber": {
-                  "type": "string",
-                  "example": "123456789"
+                "mobile": {
+                  "example": "any"
+                },
+                "work": {
+                  "example": "any"
+                },
+                "ssn": {
+                  "example": "any"
+                },
+                "service": {
+                  "example": "any"
+                },
+                "card": {
+                  "example": "any"
+                },
+                "cvv": {
+                  "example": "any"
+                },
+                "exp": {
+                  "example": "any"
                 }
               }
             }
@@ -93,11 +99,8 @@
           "201": {
             "description": "Created"
           },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
+          "400": {
+            "description": "Bad Request"
           },
           "500": {
             "description": "Internal Server Error"
@@ -106,28 +109,13 @@
       },
       "get": {
         "tags": [
-          "customers"
+          "customer"
         ],
         "description": "",
         "parameters": [
           {
-            "name": "Authorization",
+            "name": "authorization",
             "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "name",
-            "in": "query",
-            "type": "string"
-          },
-          {
-            "name": "email",
-            "in": "query",
-            "type": "string"
-          },
-          {
-            "name": "phoneNumber",
-            "in": "query",
             "type": "string"
           }
         ],
@@ -147,10 +135,48 @@
         }
       }
     },
-    "/api/customers/{id}": {
+    "/api/{customerid}": {
+      "get": {
+        "tags": [
+          "customer"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "customerid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/customer/{id}": {
       "put": {
         "tags": [
-          "customers"
+          "customer"
         ],
         "description": "",
         "parameters": [
@@ -161,29 +187,48 @@
             "type": "string"
           },
           {
-            "name": "Authorization",
+            "name": "authorization",
             "in": "header",
             "type": "string"
           },
           {
             "name": "body",
             "in": "body",
-            "description": "customers data.",
-            "required": true,
             "schema": {
               "type": "object",
               "properties": {
                 "name": {
-                  "type": "string",
-                  "example": "hung"
+                  "example": "any"
+                },
+                "username": {
+                  "example": "any"
+                },
+                "password": {
+                  "example": "any"
                 },
                 "email": {
-                  "type": "string",
-                  "example": "1234"
+                  "example": "any"
                 },
-                "phoneNumber": {
-                  "type": "string",
-                  "example": "123456789"
+                "mobile": {
+                  "example": "any"
+                },
+                "work": {
+                  "example": "any"
+                },
+                "ssn": {
+                  "example": "any"
+                },
+                "service": {
+                  "example": "any"
+                },
+                "card": {
+                  "example": "any"
+                },
+                "cvv": {
+                  "example": "any"
+                },
+                "exp": {
+                  "example": "any"
                 }
               }
             }
@@ -209,7 +254,7 @@
       },
       "delete": {
         "tags": [
-          "customers"
+          "customer"
         ],
         "description": "",
         "parameters": [
@@ -220,7 +265,7 @@
             "type": "string"
           },
           {
-            "name": "Authorization",
+            "name": "authorization",
             "in": "header",
             "type": "string"
           }
@@ -244,893 +289,35 @@
         }
       }
     },
-    "/api/categories": {
+    "/api/service": {
       "post": {
         "tags": [
-          "categories"
+          "service"
         ],
         "description": "",
         "parameters": [
           {
-            "name": "Authorization",
+            "name": "authorization",
             "in": "header",
             "type": "string"
           },
           {
             "name": "body",
             "in": "body",
-            "description": "Category data.",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "title": {
-                  "type": "string",
-                  "example": "Sample Title"
-                },
-                "subtitle": {
-                  "type": "string",
-                  "example": "Sample Subtitle"
-                },
-                "text": {
-                  "type": "string",
-                  "example": "Sample text"
-                },
-                "url": {
-                  "type": "string",
-                  "example": "http://example.com"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Created"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "get": {
-        "tags": [
-          "categories"
-        ],
-        "description": "",
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/api/categories/{id}": {
-      "put": {
-        "tags": [
-          "categories"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "Authorization",
-            "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "description": "Category data.",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "title": {
-                  "type": "string",
-                  "example": "Updated Title"
-                },
-                "subtitle": {
-                  "type": "string",
-                  "example": "Updated Subtitle"
-                },
-                "text": {
-                  "type": "string",
-                  "example": "Updated text"
-                },
-                "url": {
-                  "type": "string",
-                  "example": "http://updated-example.com"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "categories"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "Authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/api/services": {
-      "post": {
-        "tags": [
-          "services"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "description": "Service data.",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "title": {
-                  "type": "string",
-                  "example": "Sample Service"
-                },
-                "subtitle": {
-                  "type": "string",
-                  "example": "Sample Subtitle"
-                },
-                "category": {
-                  "type": "number",
-                  "example": 1
-                },
-                "text": {
-                  "type": "string",
-                  "example": "Sample text"
-                },
-                "url": {
-                  "type": "string",
-                  "example": "http://example.com"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Created"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "get": {
-        "tags": [
-          "services"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "category",
-            "in": "query",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/api/services/{id}": {
-      "put": {
-        "tags": [
-          "services"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "Authorization",
-            "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "description": "Service data.",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "title": {
-                  "type": "string",
-                  "example": "Updated Service"
-                },
-                "subtitle": {
-                  "type": "string",
-                  "example": "Updated Subtitle"
-                },
-                "category": {
-                  "type": "number",
-                  "example": 1
-                },
-                "text": {
-                  "type": "string",
-                  "example": "Updated text"
-                },
-                "url": {
-                  "type": "string",
-                  "example": "http://updated-example.com"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "services"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "Authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/api/blogs": {
-      "post": {
-        "tags": [
-          "blogs"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "description": "blogs data.",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "title": {
-                  "type": "string",
-                  "example": ""
-                },
-                "content": {
-                  "type": "string",
-                  "example": ""
-                },
-                "author": {
-                  "type": "string",
-                  "example": ""
-                },
-                "date": {
-                  "type": "string",
-                  "example": ""
-                },
-                "image": {
-                  "type": "string",
-                  "example": ""
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Created"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "get": {
-        "tags": [
-          "blogs"
-        ],
-        "description": "",
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/api/blogs/{id}": {
-      "put": {
-        "tags": [
-          "blogs"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "Authorization",
-            "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "description": "blogs data.",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "title": {
-                  "type": "string",
-                  "example": ""
-                },
-                "content": {
-                  "type": "string",
-                  "example": ""
-                },
-                "author": {
-                  "type": "string",
-                  "example": ""
-                },
-                "date": {
-                  "type": "string",
-                  "example": ""
-                },
-                "image": {
-                  "type": "string",
-                  "example": ""
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "blogs"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "Authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/api/about": {
-      "post": {
-        "tags": [
-          "about"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "description": "about data.",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "title": {
-                  "type": "string",
-                  "example": ""
-                },
-                "content": {
-                  "type": "string",
-                  "example": ""
-                },
-                "image": {
-                  "type": "string",
-                  "example": ""
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Created"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "get": {
-        "tags": [
-          "about"
-        ],
-        "description": "",
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/api/about/{id}": {
-      "put": {
-        "tags": [
-          "about"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "Authorization",
-            "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "description": "about data.",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "title": {
-                  "type": "string",
-                  "example": ""
-                },
-                "content": {
-                  "type": "string",
-                  "example": ""
-                },
-                "image": {
-                  "type": "string",
-                  "example": ""
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "about"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "Authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/api/gallery": {
-      "post": {
-        "tags": [
-          "gallery"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "description": "gallery data.",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "title": {
-                  "type": "string",
-                  "example": ""
-                },
-                "url": {
-                  "type": "string",
-                  "example": ""
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Created"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "get": {
-        "tags": [
-          "gallery"
-        ],
-        "description": "",
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/api/gallery/{id}": {
-      "put": {
-        "tags": [
-          "gallery"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "Authorization",
-            "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "description": "gallery data.",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "title": {
-                  "type": "string",
-                  "example": ""
-                },
-                "url": {
-                  "type": "string",
-                  "example": ""
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "gallery"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "Authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/api/employees": {
-      "post": {
-        "tags": [
-          "employees"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "description": "gallery data.",
-            "required": true,
             "schema": {
               "type": "object",
               "properties": {
                 "name": {
-                  "type": "string",
-                  "example": ""
+                  "example": "any"
                 },
-                "email": {
-                  "type": "string",
-                  "example": ""
+                "price": {
+                  "example": "any"
                 },
-                "phoneNumber": {
-                  "type": "string",
-                  "example": ""
+                "description": {
+                  "example": "any"
                 },
-                "branch": {
-                  "type": "string",
-                  "example": ""
-                },
-                "profileImage": {
-                  "type": "string",
-                  "example": ""
+                "formData": {
+                  "example": "any"
                 }
               }
             }
@@ -1139,6 +326,9 @@
         "responses": {
           "201": {
             "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
           },
           "401": {
             "description": "Unauthorized"
@@ -1153,28 +343,13 @@
       },
       "get": {
         "tags": [
-          "employees"
+          "service"
         ],
         "description": "",
         "parameters": [
           {
-            "name": "branch",
-            "in": "query",
-            "type": "string"
-          },
-          {
-            "name": "email",
-            "in": "query",
-            "type": "string"
-          },
-          {
-            "name": "phoneNumber",
-            "in": "query",
-            "type": "string"
-          },
-          {
-            "name": "name",
-            "in": "query",
+            "name": "authorization",
+            "in": "header",
             "type": "string"
           }
         ],
@@ -1182,16 +357,22 @@
           "200": {
             "description": "OK"
           },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
           "500": {
             "description": "Internal Server Error"
           }
         }
       }
     },
-    "/api/employees/{id}": {
-      "put": {
+    "/api/service/{id}": {
+      "get": {
         "tags": [
-          "employees"
+          "service"
         ],
         "description": "",
         "parameters": [
@@ -1202,37 +383,63 @@
             "type": "string"
           },
           {
-            "name": "Authorization",
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "service"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
             "in": "header",
             "type": "string"
           },
           {
             "name": "body",
             "in": "body",
-            "description": "gallery data.",
-            "required": true,
             "schema": {
               "type": "object",
               "properties": {
                 "name": {
-                  "type": "string",
-                  "example": ""
+                  "example": "any"
                 },
-                "email": {
-                  "type": "string",
-                  "example": ""
+                "price": {
+                  "example": "any"
                 },
-                "phoneNumber": {
-                  "type": "string",
-                  "example": ""
+                "description": {
+                  "example": "any"
                 },
-                "branch": {
-                  "type": "string",
-                  "example": ""
-                },
-                "profileImage": {
-                  "type": "string",
-                  "example": ""
+                "formData": {
+                  "example": "any"
                 }
               }
             }
@@ -1258,7 +465,7 @@
       },
       "delete": {
         "tags": [
-          "employees"
+          "service"
         ],
         "description": "",
         "parameters": [
@@ -1269,7 +476,7 @@
             "type": "string"
           },
           {
-            "name": "Authorization",
+            "name": "authorization",
             "in": "header",
             "type": "string"
           }
@@ -1293,49 +500,32 @@
         }
       }
     },
-    "/api/branches": {
+    "/api/form": {
       "post": {
         "tags": [
-          "branches"
+          "form"
         ],
         "description": "",
         "parameters": [
           {
-            "name": "Authorization",
+            "name": "authorization",
             "in": "header",
             "type": "string"
           },
           {
             "name": "body",
             "in": "body",
-            "description": "category data.",
-            "required": true,
             "schema": {
               "type": "object",
               "properties": {
-                "name": {
-                  "type": "string",
-                  "example": ""
+                "cid": {
+                  "example": "any"
                 },
-                "address": {
-                  "type": "string",
-                  "example": ""
+                "sid": {
+                  "example": "any"
                 },
-                "phoneNumber": {
-                  "type": "string",
-                  "example": ""
-                },
-                "email": {
-                  "type": "string",
-                  "example": ""
-                },
-                "openingHours": {
-                  "type": "string",
-                  "example": ""
-                },
-                "url": {
-                  "type": "string",
-                  "example": ""
+                "data": {
+                  "example": "any"
                 }
               }
             }
@@ -1358,12 +548,25 @@
       },
       "get": {
         "tags": [
-          "branches"
+          "form"
         ],
         "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           },
           "500": {
             "description": "Internal Server Error"
@@ -1371,10 +574,10 @@
         }
       }
     },
-    "/api/branches/{id}": {
-      "put": {
+    "/api/form/{id}": {
+      "get": {
         "tags": [
-          "branches"
+          "form"
         ],
         "description": "",
         "parameters": [
@@ -1385,41 +588,60 @@
             "type": "string"
           },
           {
-            "name": "Authorization",
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "form"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
             "in": "header",
             "type": "string"
           },
           {
             "name": "body",
             "in": "body",
-            "description": "category data.",
-            "required": true,
             "schema": {
               "type": "object",
               "properties": {
-                "name": {
-                  "type": "string",
-                  "example": ""
+                "cid": {
+                  "example": "any"
                 },
-                "address": {
-                  "type": "string",
-                  "example": ""
+                "sid": {
+                  "example": "any"
                 },
-                "phoneNumber": {
-                  "type": "string",
-                  "example": ""
-                },
-                "email": {
-                  "type": "string",
-                  "example": ""
-                },
-                "openingHours": {
-                  "type": "string",
-                  "example": ""
-                },
-                "url": {
-                  "type": "string",
-                  "example": ""
+                "data": {
+                  "example": "any"
                 }
               }
             }
@@ -1445,7 +667,7 @@
       },
       "delete": {
         "tags": [
-          "branches"
+          "form"
         ],
         "description": "",
         "parameters": [
@@ -1456,7 +678,7 @@
             "type": "string"
           },
           {
-            "name": "Authorization",
+            "name": "authorization",
             "in": "header",
             "type": "string"
           }
@@ -1480,58 +702,550 @@
         }
       }
     },
-    "/api/auth/register": {
+    "/api/employee": {
       "post": {
         "tags": [
-          "auth"
+          "employee"
         ],
-        "summary": "register new account",
         "description": "",
         "parameters": [
           {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
             "name": "body",
             "in": "body",
-            "description": "user data.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "example": "any"
+                },
+                "username": {
+                  "example": "any"
+                },
+                "password": {
+                  "example": "any"
+                },
+                "email": {
+                  "example": "any"
+                },
+                "mobile": {
+                  "example": "any"
+                },
+                "work": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "employee"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/employee/{id}": {
+      "get": {
+        "tags": [
+          "employee"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
             "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "employee"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "example": "any"
+                },
+                "username": {
+                  "example": "any"
+                },
+                "password": {
+                  "example": "any"
+                },
+                "email": {
+                  "example": "any"
+                },
+                "mobile": {
+                  "example": "any"
+                },
+                "work": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "employee"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/job": {
+      "post": {
+        "tags": [
+          "job"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "cid": {
+                  "example": "any"
+                },
+                "sid": {
+                  "example": "any"
+                },
+                "progress": {
+                  "example": "any"
+                },
+                "formid": {
+                  "example": "any"
+                },
+                "startdate": {
+                  "example": "any"
+                },
+                "enddate": {
+                  "example": "any"
+                },
+                "additionalprice": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "job"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/job/{id}": {
+      "get": {
+        "tags": [
+          "job"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "job"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "cid": {
+                  "example": "any"
+                },
+                "sid": {
+                  "example": "any"
+                },
+                "progress": {
+                  "example": "any"
+                },
+                "formid": {
+                  "example": "any"
+                },
+                "startdate": {
+                  "example": "any"
+                },
+                "enddate": {
+                  "example": "any"
+                },
+                "additionalprice": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "job"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/owner": {
+      "post": {
+        "tags": [
+          "owner"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
             "schema": {
               "type": "object",
               "properties": {
                 "username": {
-                  "type": "string",
-                  "example": ""
-                },
-                "name": {
-                  "type": "string",
-                  "example": ""
-                },
-                "email": {
-                  "type": "string",
-                  "example": ""
+                  "example": "any"
                 },
                 "password": {
-                  "type": "string",
-                  "example": ""
+                  "example": "any"
                 },
-                "phoneNumber": {
-                  "type": "string",
-                  "example": ""
+                "name": {
+                  "example": "any"
                 },
-                "address": {
-                  "type": "string",
-                  "example": ""
-                },
-                "profileImage": {
-                  "type": "string",
-                  "example": ""
-                },
-                "role": {
-                  "type": "string",
-                  "example": ""
+                "company": {
+                  "example": "any"
                 }
               }
             }
           }
         ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "owner"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/owner/default": {
+      "post": {
+        "tags": [
+          "owner"
+        ],
+        "description": "",
         "responses": {
           "201": {
             "description": "Created"
@@ -1545,100 +1259,11 @@
         }
       }
     },
-    "/api/auth/loginCustomer": {
-      "post": {
+    "/api/owner/{id}": {
+      "get": {
         "tags": [
-          "auth"
+          "owner"
         ],
-        "summary": "login for customer",
-        "description": "",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "description": "user data.",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "emailOrUsername": {
-                  "type": "string",
-                  "example": ""
-                },
-                "password": {
-                  "type": "string",
-                  "example": ""
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/api/auth/loginAdmin": {
-      "post": {
-        "tags": [
-          "auth"
-        ],
-        "summary": "login for admin",
-        "description": "",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "description": "user data.",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "emailOrUsername": {
-                  "type": "string",
-                  "example": ""
-                },
-                "password": {
-                  "type": "string",
-                  "example": ""
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/api/auth/updateUser/{id}": {
-      "put": {
-        "tags": [
-          "auth"
-        ],
-        "summary": "update user info",
         "description": "",
         "parameters": [
           {
@@ -1648,33 +1273,63 @@
             "type": "string"
           },
           {
-            "name": "Authorization",
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "owner"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
             "in": "header",
             "type": "string"
           },
           {
             "name": "body",
             "in": "body",
-            "description": "category data.",
-            "required": true,
             "schema": {
               "type": "object",
               "properties": {
+                "username": {
+                  "example": "any"
+                },
                 "name": {
-                  "type": "string",
-                  "example": ""
+                  "example": "any"
                 },
-                "phoneNumber": {
-                  "type": "string",
-                  "example": ""
+                "company": {
+                  "example": "any"
                 },
-                "address": {
-                  "type": "string",
-                  "example": ""
-                },
-                "profileImage": {
-                  "type": "string",
-                  "example": ""
+                "password": {
+                  "example": "any"
                 }
               }
             }
@@ -1697,75 +1352,11 @@
             "description": "Internal Server Error"
           }
         }
-      }
-    },
-    "/api/auth/updatePassword/{id}": {
-      "put": {
-        "tags": [
-          "auth"
-        ],
-        "summary": "update user password",
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "Authorization",
-            "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "description": "user data.",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "currentPassword": {
-                  "type": "string",
-                  "example": ""
-                },
-                "newPassword": {
-                  "type": "string",
-                  "example": ""
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/api/auth/deleteUser/{id}": {
+      },
       "delete": {
         "tags": [
-          "auth"
+          "owner"
         ],
-        "summary": "delete user",
         "description": "",
         "parameters": [
           {
@@ -1775,7 +1366,7 @@
             "type": "string"
           },
           {
-            "name": "Authorization",
+            "name": "authorization",
             "in": "header",
             "type": "string"
           }
@@ -1800,53 +1391,37 @@
       }
     },
     "/api/auth": {
-      "get": {
+      "post": {
         "tags": [
           "auth"
         ],
-        "summary": "get user list",
         "description": "",
         "parameters": [
           {
-            "name": "Authorization",
-            "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "username",
-            "in": "query",
-            "type": "string"
-          },
-          {
-            "name": "email",
-            "in": "query",
-            "type": "string"
-          },
-          {
-            "name": "phoneNumber",
-            "in": "query",
-            "type": "string"
-          },
-          {
-            "name": "name",
-            "in": "query",
-            "type": "string"
-          },
-          {
-            "name": "role",
-            "in": "query",
-            "type": "string"
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "username": {
+                  "example": "any"
+                },
+                "password": {
+                  "example": "any"
+                },
+                "role": {
+                  "example": "any"
+                }
+              }
+            }
           }
         ],
         "responses": {
           "200": {
             "description": "OK"
           },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
+          "400": {
+            "description": "Bad Request"
           },
           "500": {
             "description": "Internal Server Error"
@@ -1854,57 +1429,41 @@
         }
       }
     },
-    "/api/appointments": {
+    "/api/assignment": {
       "post": {
         "tags": [
-          "appointments"
+          "assignment"
         ],
         "description": "",
         "parameters": [
           {
-            "name": "Authorization",
+            "name": "authorization",
             "in": "header",
             "type": "string"
           },
           {
             "name": "body",
             "in": "body",
-            "description": "Appointment data.",
-            "required": true,
             "schema": {
               "type": "object",
               "properties": {
-                "userId": {
-                  "type": "string",
-                  "example": ""
+                "sid": {
+                  "example": "any"
                 },
-                "name": {
-                  "type": "string",
-                  "example": ""
+                "pay1": {
+                  "example": "any"
                 },
-                "email": {
-                  "type": "string",
-                  "example": ""
+                "pay2": {
+                  "example": "any"
                 },
-                "phoneNumber": {
-                  "type": "string",
-                  "example": ""
+                "jid": {
+                  "example": "any"
                 },
-                "service": {
-                  "type": "string",
-                  "example": ""
+                "reassignment": {
+                  "example": "any"
                 },
-                "employee": {
-                  "type": "string",
-                  "example": ""
-                },
-                "branch": {
-                  "type": "string",
-                  "example": ""
-                },
-                "timeslot": {
-                  "type": "string",
-                  "example": ""
+                "eId": {
+                  "example": "any"
                 }
               }
             }
@@ -1913,6 +1472,9 @@
         "responses": {
           "201": {
             "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
           },
           "401": {
             "description": "Unauthorized"
@@ -1930,48 +1492,13 @@
       },
       "get": {
         "tags": [
-          "appointments"
+          "assignment"
         ],
         "description": "",
         "parameters": [
           {
-            "name": "Authorization",
+            "name": "authorization",
             "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "userId",
-            "in": "query",
-            "type": "string"
-          },
-          {
-            "name": "service",
-            "in": "query",
-            "type": "string"
-          },
-          {
-            "name": "employee",
-            "in": "query",
-            "type": "string"
-          },
-          {
-            "name": "phoneNumber",
-            "in": "query",
-            "type": "string"
-          },
-          {
-            "name": "name",
-            "in": "query",
-            "type": "string"
-          },
-          {
-            "name": "branch",
-            "in": "query",
-            "type": "string"
-          },
-          {
-            "name": "timeslot",
-            "in": "query",
             "type": "string"
           }
         ],
@@ -1991,10 +1518,10 @@
         }
       }
     },
-    "/api/appointments/{id}": {
-      "put": {
+    "/api/assignment/{id}": {
+      "get": {
         "tags": [
-          "appointments"
+          "assignment"
         ],
         "description": "",
         "parameters": [
@@ -2005,49 +1532,69 @@
             "type": "string"
           },
           {
-            "name": "Authorization",
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "assignment"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
             "in": "header",
             "type": "string"
           },
           {
             "name": "body",
             "in": "body",
-            "description": "Appointment data.",
-            "required": true,
             "schema": {
               "type": "object",
               "properties": {
-                "userId": {
-                  "type": "string",
-                  "example": ""
+                "sid": {
+                  "example": "any"
                 },
-                "name": {
-                  "type": "string",
-                  "example": ""
+                "pay1": {
+                  "example": "any"
                 },
-                "email": {
-                  "type": "string",
-                  "example": ""
+                "pay2": {
+                  "example": "any"
                 },
-                "phoneNumber": {
-                  "type": "string",
-                  "example": ""
+                "jid": {
+                  "example": "any"
                 },
-                "service": {
-                  "type": "string",
-                  "example": ""
+                "reassignment": {
+                  "example": "any"
                 },
-                "employee": {
-                  "type": "string",
-                  "example": ""
-                },
-                "branch": {
-                  "type": "string",
-                  "example": ""
-                },
-                "timeslot": {
-                  "type": "string",
-                  "example": ""
+                "eId": {
+                  "example": "any"
                 }
               }
             }
@@ -2056,6 +1603,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
           },
           "401": {
             "description": "Unauthorized"
@@ -2073,7 +1623,7 @@
       },
       "delete": {
         "tags": [
-          "appointments"
+          "assignment"
         ],
         "description": "",
         "parameters": [
@@ -2084,7 +1634,7 @@
             "type": "string"
           },
           {
-            "name": "Authorization",
+            "name": "authorization",
             "in": "header",
             "type": "string"
           }

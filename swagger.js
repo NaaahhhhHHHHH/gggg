@@ -2,37 +2,57 @@ const swaggerAutogen = require('swagger-autogen')();
 
 const doc = {
   info: {
-    title: 'Beauty Salon API',
-    description: 'API for Beauty Salon Management',
+    title: 'CRM API',
+    description: 'API for CRM Management',
   },
   host: 'localhost:5000',
   schemes: ['http'], 
   tags: [
-    { name: 'customers', description: 'API for managing customers' },
-    { name: 'categories', description: 'API for managing categories' },
-    { name: 'services', description: 'API for managing services' },
-    { name: 'blogs', description: 'API for managing blogs' },
-    { name: 'about', description: 'API for managing about' },
-    { name: 'gallery', description: 'API for managing gallery' },
-    { name: 'employees', description: 'API for managing employees' },
-    { name: 'branches', description: 'API for managing branches' },
-    { name: 'auth', description: 'API for managing auth' },
-    { name: 'appointments', description: 'API for managing appointments' },
+    {
+      "name": "customer",
+      "description": "API for managing customer"
+    },
+    {
+      "name": "service",
+      "description": "API for managing service"
+    },
+    {
+      "name": "form",
+      "description": "API for managing form"
+    },
+    {
+      "name": "employee",
+      "description": "API for managing employee"
+    },
+    {
+      "name": "job",
+      "description": "API for managing gallery"
+    },
+    {
+      "name": "owner",
+      "description": "API for managing owner"
+    },
+    {
+      "name": "auth",
+      "description": "API for managing auth"
+    },
+    {
+      "name": "assignment",
+      "description": "API for managing assignment"
+    }
   ],
 };
 
 const outputFile = './swagger-output.json';
 const routes = [
-    './routes/customers.js',
-    './routes/categories.js',
-    './routes/services.js',
-    './routes/blogs.js',
-    './routes/about.js',
-    './routes/gallery.js',
-    './routes/employees.js',
-    './routes/branches.js',
-    './routes/auth.js',
-    './routes/appointments.js',
+    './routes/customerRoute.js',
+    './routes/serviceRoute.js',
+    './routes/formRoute.js',
+    './routes/employeeRoute.js',
+    './routes/jobRoute.js',
+    './routes/ownerRoute.js',
+    './routes/authRoute.js',
+    './routes/assignmentRoute.js',
 ];
 
 swaggerAutogen(outputFile, routes, doc);

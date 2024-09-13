@@ -1,5 +1,7 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../config/database');
+const { sequelize } = require('../config/db.js');
+const Customer = require('./customerModel');
+const Service = require('./serviceModel');
 const Form = sequelize.define('Form', {
     id: {
         type: DataTypes.INTEGER,
@@ -11,7 +13,7 @@ const Form = sequelize.define('Form', {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-            model: 'customers',
+            model: Customer,
             key: 'id',
         },
         onDelete: 'CASCADE',
@@ -20,7 +22,7 @@ const Form = sequelize.define('Form', {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-            model: 'services',
+            model: Service,
             key: 'id',
         },
         onDelete: 'CASCADE',

@@ -1,6 +1,5 @@
 const express = require('express');
 const { sequelize, connectDB } = require('./config/db');
-const authRoutes = require('./routes/auth');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger-output.json');
 
@@ -13,16 +12,15 @@ connectDB();
 app.use(express.json());
 
 // Define Routes
-app.use('/', require('./routes/customers'));
-app.use('/', require('./routes/categories'));
-app.use('/', require('./routes/services'));
-//app.use('/', require('./routes/appointments'));
-//app.use('/', require('./routes/blogs'));
-//app.use('/', require('./routes/about'));
-//app.use('/', require('./routes/gallery'));
-app.use('/', require('./routes/employees'));
-app.use('/', require('./routes/branches'));
-app.use('/', authRoutes);
+app.use('/', require('./routes/customerRoute'));
+app.use('/', require('./routes/serviceRoute'));
+app.use('/', require('./routes/formRoute'));
+app.use('/', require('./routes/employeeRoute'));
+app.use('/', require('./routes/jobRoute'));
+app.use('/', require('./routes/ownerRoute'));
+app.use('/', require('./routes/authRoute'));
+app.use('/', require('./routes/assignmentRoute'));
+app.use('/login', require('./login.html'));
 
 sequelize.sync({ force: false })
   .then(() => {

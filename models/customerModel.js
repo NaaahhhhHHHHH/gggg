@@ -1,12 +1,16 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../config/db');
-const bcrypt = require('bcrypt');
+const { sequelize } = require('../config/db');
+const bcrypt = require('bcryptjs');
 
 const Customer = sequelize.define('Customer', {
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
+    },
+    name: {
+        type: DataTypes.STRING,
+        allowNull: false,
     },
     username: {
         type: DataTypes.STRING,
@@ -50,6 +54,8 @@ const Customer = sequelize.define('Customer', {
         allowNull: true,
     },
 }, {
+    timestamps: true,
+    tableName: 'customers',
     hooks: {
         beforeCreate: async (customer) => {
             const salt = await bcrypt.genSalt(10);

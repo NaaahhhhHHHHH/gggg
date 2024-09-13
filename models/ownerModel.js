@@ -1,14 +1,15 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../config/database');
+const { sequelize } = require('../config/db.js');
+const bcrypt = require('bcryptjs');
 
-const Service = sequelize.define('Service', {
+const Owner = sequelize.define('Owner', {
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
         allowNull: false,
     },
-    name: {
+    username: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true,
@@ -16,23 +17,27 @@ const Service = sequelize.define('Service', {
             notEmpty: true,
         },
     },
-    description: {
+    password: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    name: {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
             notEmpty: true,
         },
     },
-    formData: {
-      type: DataTypes.JSON,
-      allowNull: false,
-      validate: {
-          notEmpty: true,
-      },
-  },
+    company: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+            notEmpty: true,
+        },
+    },
 }, {
     timestamps: true,
-    tableName: 'services',
+    tableName: 'owners',
 });
 
-module.exports = Service;
+module.exports = Owner;
