@@ -2,6 +2,7 @@ const express = require('express');
 const { sequelize, connectDB } = require('./config/db');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger-output.json');
+const cors = require('cors');
 
 const app = express();
 
@@ -12,6 +13,9 @@ connectDB();
 app.use(express.json());
 
 // Define Routes
+app.use(cors({
+  origin: 'http://localhost:3000'
+}));
 app.use('/', require('./routes/customerRoute'));
 app.use('/', require('./routes/serviceRoute'));
 app.use('/', require('./routes/formRoute'));
@@ -20,7 +24,6 @@ app.use('/', require('./routes/jobRoute'));
 app.use('/', require('./routes/ownerRoute'));
 app.use('/', require('./routes/authRoute'));
 app.use('/', require('./routes/assignmentRoute'));
-app.use('/login', require('./login.html'));
 
 sequelize.sync({ force: false })
   .then(() => {

@@ -17,6 +17,12 @@ const Job = sequelize.define('Job', {
         defaultValue: 0,
         comment: 'Additional service fee'
     },
+    monthlyprice: {
+        type: DataTypes.FLOAT,
+        allowNull: false,
+        defaultValue: 0,
+        comment: 'Monthly service fee'
+    },
     cid: {
         type: DataTypes.INTEGER,
         allowNull: false,

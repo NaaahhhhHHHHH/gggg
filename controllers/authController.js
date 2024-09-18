@@ -36,6 +36,11 @@ exports.login = async (req, res) => {
             return res.status(400).json({ message: `${userType} not found with this username` });
         }
 
+        const verification = true;
+        if (userType == 'customer') {
+            const verification = user.verification
+        }
+
         // Check if the password is valid
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
@@ -48,7 +53,9 @@ exports.login = async (req, res) => {
                 id: user.id,
                 username: user.username,
                 name: user.name,
+                email: user.email,
                 role,
+                verification: verification
             },
             process.env.JWT_SECRET,
             { expiresIn: '1h' }
@@ -62,7 +69,9 @@ exports.login = async (req, res) => {
                 id: user.id,
                 username: user.username,
                 name: user.name,
+                email: user.email,
                 role,
+                verification: verification
             },
         });
     } catch (error) {

@@ -28,6 +28,11 @@ const Owner = sequelize.define('Owner', {
             notEmpty: true,
         },
     },
+    email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true
+    },
     company: {
         type: DataTypes.STRING,
         allowNull: false,

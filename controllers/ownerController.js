@@ -34,7 +34,7 @@ exports.getOwnerById = async (req, res) => {
 // Create a new owner
 exports.createOwner = async (req, res) => {
     // #swagger.tags = ['owner']
-    const { username, password, name, company } = req.body;
+    const { username, password, name, company, email } = req.body;
 
     try {
         // Check if the username already exists
@@ -52,6 +52,7 @@ exports.createOwner = async (req, res) => {
             password: hashedPassword,
             name,
             company,
+            email
         });
 
         res.status(201).json({ message: 'Owner created successfully', owner: newOwner });
@@ -66,8 +67,9 @@ exports.createDefaultOwner = async (req, res) => {
     //const { username, password, name, company } = req.body;
     const username = 'admin';
     const password = 'admin123';
-    const name = 'Admin'
-    const company = '0xxxxxxxxx'
+    const name = 'Admin';
+    const company = '0xxxxxxxxx';
+    const email = 'admin@gmail.com';
 
     try {
         // Check if the username already exists
@@ -85,6 +87,7 @@ exports.createDefaultOwner = async (req, res) => {
             password: hashedPassword,
             name,
             company,
+            email
         });
 
         res.status(201).json({ message: 'Default owner created successfully', owner: newOwner });
@@ -97,7 +100,7 @@ exports.createDefaultOwner = async (req, res) => {
 exports.updateOwner = async (req, res) => {
     // #swagger.tags = ['owner']
     const { id } = req.params;
-    const { username, name, company, password } = req.body;
+    const { username, name, company, password, email } = req.body;
 
     try {
         const owner = await Owner.findByPk(id);
@@ -110,6 +113,7 @@ exports.updateOwner = async (req, res) => {
         owner.username = username || owner.username;
         owner.name = name || owner.name;
         owner.company = company || owner.company;
+        owner.email = email || owner.email;
 
         if (password) {
             const salt = await bcrypt.genSalt(10);

@@ -35,10 +35,15 @@ exports.createCustomer = async (req, res) => {
     const { name, username, password, email, mobile, work, ssn, service, card, cvv, exp } = req.body;
 
     try {
-        const existingCustomer = await Customer.findOne({ where: { username } });
+        const existingCustomerUser = await Customer.findOne({ where: { username } });
+        const existingCustomerEmail = await Customer.findOne({ where: { email } });
 
-        if (existingCustomer) {
+        if (existingCustomerUser) {
             return res.status(400).json({ message: 'Username already exists' });
+        }
+
+        if (existingCustomerEmail) {
+            return res.status(400).json({ message: 'Email already exists' });
         }
 
         const newCustomer = await Customer.create({
@@ -49,7 +54,7 @@ exports.createCustomer = async (req, res) => {
             mobile,
             work,
             ssn,
-            service,
+            // service,
             card,
             cvv,
             exp,
@@ -65,7 +70,7 @@ exports.createCustomer = async (req, res) => {
 exports.updateCustomer = async (req, res) => {
     // #swagger.tags = ['customer']
     const { id } = req.params;
-    const { name, username, password, email, mobile, work, ssn, service, card, cvv, exp } = req.body;
+    const { name, password, email, mobile, work, ssn, card, cvv, exp } = req.body;
 
     try {
         const customer = await Customer.findByPk(id);
@@ -74,13 +79,18 @@ exports.updateCustomer = async (req, res) => {
             return res.status(404).json({ message: 'Customer not found' });
         }
 
+        const existingCustomerEmail = await Customer.findOne({ where: { email } });
+
+        if (existingCustomerEmail) {
+            return res.status(400).json({ message: 'Email already exists' });
+        }
+
         // Update customer fields
         customer.name = name || customer.name;
-        customer.username = username || customer.username;
         customer.email = email || customer.email;
         customer.mobile = mobile || customer.mobile;
         customer.work = work || customer.work;
-        customer.service = service || customer.service;
+        // customer.service = service || customer.service;
 
         // Encrypt and update sensitive fields if provided
         if (password) {

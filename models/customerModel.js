@@ -23,6 +23,7 @@ const Customer = sequelize.define('Customer', {
     },
     email: {
         type: DataTypes.STRING,
+        unique: true,
         allowNull: false,
     },
     mobile: {
@@ -31,13 +32,9 @@ const Customer = sequelize.define('Customer', {
     },
     work: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
     },
     ssn: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
-    service: {
         type: DataTypes.STRING,
         allowNull: false,
     },
@@ -53,6 +50,11 @@ const Customer = sequelize.define('Customer', {
         type: DataTypes.DATE,
         allowNull: true,
     },
+    verification: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+        allowNull: false
+    }
 }, {
     timestamps: true,
     tableName: 'customers',

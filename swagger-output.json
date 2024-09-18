@@ -1390,7 +1390,7 @@
         }
       }
     },
-    "/api/auth": {
+    "/api/auth/login": {
       "post": {
         "tags": [
           "auth"
