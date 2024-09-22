@@ -7,38 +7,47 @@ const bcrypt = require('bcryptjs');
 // Login function for Employee, Owner, and Customer
 exports.login = async (req, res) => {
     // #swagger.tags = ['auth']
-    const { username, password, role } = req.body; // role can be 'employee', 'owner', or 'customer'
+    const { username, password } = req.body; // role can be 'employee', 'owner', or 'customer'
 
     try {
-        let user;
-        let userType;
-
+        let user = null;
         // Determine the user type based on role
-        switch (role) {
-            case 'employee':
-                user = await Employee.findOne({ where: { username } });
-                userType = 'Employee';
-                break;
-            case 'owner':
-                user = await Owner.findOne({ where: { username } });
-                userType = 'Owner';
-                break;
-            case 'customer':
-                user = await Customer.findOne({ where: { username } });
-                userType = 'Customer';
-                break;
-            default:
-                return res.status(400).json({ message: 'Invalid role provided' });
+        // switch (role) {
+        //     case 'employee':
+        //         user = await Employee.findOne({ where: { username } });
+        //         userType = 'Employee';
+        //         break;
+        //     case 'owner':
+        //         user = await Owner.findOne({ where: { username } });
+        //         userType = 'Owner';
+        //         break;
+        //     case 'customer':
+        //         user = await Customer.findOne({ where: { username } });
+        //         userType = 'Customer';
+        //         break;
+        //     default:
+        //         return res.status(400).json({ message: 'Invalid role provided' });
+        // }
+
+        let userType = 'owner';
+        user = await Owner.findOne({ where: { username } });
+        if (!user) {
+            userType = 'employee';
+            user = await Employee.findOne({ where: { username } });
+        }
+        if (!user) {
+            userType = 'customer';
+            user = await Customer.findOne({ where: { username } });
         }
 
         // If user not found
         if (!user) {
-            return res.status(400).json({ message: `${userType} not found with this username` });
+            return res.status(400).json({ message: `Username not found` });
         }
 
-        const verification = true;
+        let verification = true;
         if (userType == 'customer') {
-            const verification = user.verification
+            verification = user.verification
         }
 
         // Check if the password is valid
@@ -54,7 +63,7 @@ exports.login = async (req, res) => {
                 username: user.username,
                 name: user.name,
                 email: user.email,
-                role,
+                role: userType,
                 verification: verification
             },
             process.env.JWT_SECRET,
@@ -70,7 +79,7 @@ exports.login = async (req, res) => {
                 username: user.username,
                 name: user.name,
                 email: user.email,
-                role,
+                role: userType,
                 verification: verification
             },
         });

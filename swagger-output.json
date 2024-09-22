@@ -75,21 +75,6 @@
                 },
                 "work": {
                   "example": "any"
-                },
-                "ssn": {
-                  "example": "any"
-                },
-                "service": {
-                  "example": "any"
-                },
-                "card": {
-                  "example": "any"
-                },
-                "cvv": {
-                  "example": "any"
-                },
-                "exp": {
-                  "example": "any"
                 }
               }
             }
@@ -200,9 +185,6 @@
                 "name": {
                   "example": "any"
                 },
-                "username": {
-                  "example": "any"
-                },
                 "password": {
                   "example": "any"
                 },
@@ -215,19 +197,7 @@
                 "work": {
                   "example": "any"
                 },
-                "ssn": {
-                  "example": "any"
-                },
-                "service": {
-                  "example": "any"
-                },
-                "card": {
-                  "example": "any"
-                },
-                "cvv": {
-                  "example": "any"
-                },
-                "exp": {
+                "verification": {
                   "example": "any"
                 }
               }
@@ -237,6 +207,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
           },
           "401": {
             "description": "Unauthorized"
@@ -874,6 +847,9 @@
           "200": {
             "description": "OK"
           },
+          "400": {
+            "description": "Bad Request"
+          },
           "401": {
             "description": "Unauthorized"
           },
@@ -1187,7 +1163,13 @@
                 "name": {
                   "example": "any"
                 },
-                "company": {
+                "mobile": {
+                  "example": "any"
+                },
+                "work": {
+                  "example": "any"
+                },
+                "email": {
                   "example": "any"
                 }
               }
@@ -1325,10 +1307,16 @@
                 "name": {
                   "example": "any"
                 },
-                "company": {
+                "mobile": {
+                  "example": "any"
+                },
+                "work": {
                   "example": "any"
                 },
                 "password": {
+                  "example": "any"
+                },
+                "email": {
                   "example": "any"
                 }
               }
@@ -1338,6 +1326,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
           },
           "401": {
             "description": "Unauthorized"
@@ -1407,9 +1398,6 @@
                   "example": "any"
                 },
                 "password": {
-                  "example": "any"
-                },
-                "role": {
                   "example": "any"
                 }
               }

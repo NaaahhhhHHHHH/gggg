@@ -1,12 +1,18 @@
 const Owner = require('../models/ownerModel');
+const Employee = require('../models/employeeModel');
+const Customer = require('../models/customerModel');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { Op } = require('sequelize');
 
 // Get all owners
 exports.getAllOwners = async (req, res) => {
     // #swagger.tags = ['owner']
     try {
         const owners = await Owner.findAll();
+        owners.forEach(r => {
+            r.password = ''
+        })
         res.status(200).json(owners);
     } catch (err) {
         res.status(500).json({ message: 'Error fetching owners', error: err.message });
@@ -34,14 +40,24 @@ exports.getOwnerById = async (req, res) => {
 // Create a new owner
 exports.createOwner = async (req, res) => {
     // #swagger.tags = ['owner']
-    const { username, password, name, company, email } = req.body;
+    const { username, password, name, mobile, work, email } = req.body;
 
     try {
         // Check if the username already exists
-        const existingOwner = await Owner.findOne({ where: { username } });
+        const existingCustomerEmail = await Customer.findOne({ where: { email } });
+        const existingEmployeeEmail = await Employee.findOne({ where: { email } });
+        const existingOwnerEmail = await Owner.findOne({ where: { email } });
 
-        if (existingOwner) {
-            return res.status(400).json({ message: 'Username already taken' });
+        const existingCustomerUser = await Customer.findOne({ where: { username } });
+        const existingEmployeeUser = await Employee.findOne({ where: { username } });
+        const existingOwnerUser = await Owner.findOne({ where: { username } });                            
+        
+        if (existingCustomerUser || existingEmployeeUser || existingOwnerUser) {
+            return res.status(400).json({ message: 'Username already exists' });
+        }
+
+        if (existingCustomerEmail || existingEmployeeEmail || existingOwnerEmail) {
+            return res.status(400).json({ message: 'Email already exists' });
         }
 
         const salt = await bcrypt.genSalt(10);
@@ -51,7 +67,8 @@ exports.createOwner = async (req, res) => {
             username,
             password: hashedPassword,
             name,
-            company,
+            mobile,
+            work,
             email
         });
 
@@ -68,7 +85,7 @@ exports.createDefaultOwner = async (req, res) => {
     const username = 'admin';
     const password = 'admin123';
     const name = 'Admin';
-    const company = '0xxxxxxxxx';
+    const mobile = '0966785887';
     const email = 'admin@gmail.com';
 
     try {
@@ -86,7 +103,7 @@ exports.createDefaultOwner = async (req, res) => {
             username,
             password: hashedPassword,
             name,
-            company,
+            mobile,
             email
         });
 
@@ -100,7 +117,7 @@ exports.createDefaultOwner = async (req, res) => {
 exports.updateOwner = async (req, res) => {
     // #swagger.tags = ['owner']
     const { id } = req.params;
-    const { username, name, company, password, email } = req.body;
+    const { username, name, mobile, work, password, email } = req.body;
 
     try {
         const owner = await Owner.findByPk(id);
@@ -109,10 +126,56 @@ exports.updateOwner = async (req, res) => {
             return res.status(404).json({ message: 'Owner not found' });
         }
 
+        const existingCustomerEmail = await Customer.findOne({
+            where: {
+                email,
+            }
+        });
+        const existingEmployeeEmail = await Employee.findOne({
+            where: {
+                email,
+            }
+        });
+        const existingOwnerEmail = await Owner.findOne({
+            where: {
+                email,
+                id: {
+                    [Op.ne]: id,
+                },
+            }
+        });
+        const existingCustomerUser = await Customer.findOne({
+            where: {
+                username,
+            }
+        });
+        const existingEmployeeUser = await Employee.findOne({
+            where: {
+                username,
+            }
+        });
+        const existingOwnerUser = await Owner.findOne({
+            where: {
+                username,
+                id: {
+                    [Op.ne]: id,
+                },
+            }
+        });                     
+        
+        if (existingCustomerUser || existingEmployeeUser || existingOwnerUser) {
+            return res.status(400).json({ message: 'Username already exists' });
+        }
+
+        if (existingCustomerEmail || existingEmployeeEmail || existingOwnerEmail) {
+            return res.status(400).json({ message: 'Email already exists' });
+        }
+
         // Update the owner fields if provided, otherwise keep old values
         owner.username = username || owner.username;
         owner.name = name || owner.name;
-        owner.company = company || owner.company;
+        owner.mobile = mobile || owner.mobile;
+        owner.work = work || owner.work;
         owner.email = email || owner.email;
 
         if (password) {

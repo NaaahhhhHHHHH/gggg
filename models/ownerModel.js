@@ -33,12 +33,13 @@ const Owner = sequelize.define('Owner', {
         allowNull: false,
         unique: true
     },
-    company: {
+    mobile: {
         type: DataTypes.STRING,
         allowNull: false,
-        validate: {
-            notEmpty: true,
-        },
+    },
+    work: {
+        type: DataTypes.STRING,
+        allowNull: true,
     },
 }, {
     timestamps: true,

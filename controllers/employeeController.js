@@ -1,12 +1,18 @@
 const Employee = require('../models/employeeModel');
+const Customer = require('../models/customerModel');
+const Owner = require('../models/ownerModel');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { Op } = require('sequelize');
 
 // Fetch the list of all employees
 exports.getEmployees = async (req, res) => {
     // #swagger.tags = ['employee']
     try {
         const employees = await Employee.findAll();
+        employees.forEach(r => {
+            r.password = ''
+        })
         res.status(200).json(employees);
     } catch (err) {
         res.status(500).json({ message: 'Error fetching employee list', error: err.message });
@@ -36,11 +42,20 @@ exports.createEmployee = async (req, res) => {
 
     try {
         // Check if the username or email already exists
-        const existingEmployee = await Employee.findOne({ where: { username } }) ||
-                                 await Employee.findOne({ where: { email } });
+        const existingCustomerEmail = await Customer.findOne({ where: { email } });
+        const existingEmployeeEmail = await Employee.findOne({ where: { email } });
+        const existingOwnerEmail = await Owner.findOne({ where: { email } });
 
-        if (existingEmployee) {
-            return res.status(400).json({ message: 'Username or email already exists' });
+        const existingCustomerUser = await Customer.findOne({ where: { username } });
+        const existingEmployeeUser = await Employee.findOne({ where: { username } });
+        const existingOwnerUser = await Owner.findOne({ where: { username } });                            
+        
+        if (existingCustomerUser || existingEmployeeUser || existingOwnerUser) {
+            return res.status(400).json({ message: 'Username already exists' });
+        }
+
+        if (existingCustomerEmail || existingEmployeeEmail || existingOwnerEmail) {
+            return res.status(400).json({ message: 'Email already exists' });
         }
 
         // Hash the password before saving to the database
@@ -73,6 +88,51 @@ exports.updateEmployee = async (req, res) => {
 
         if (!employee) {
             return res.status(404).json({ message: 'Employee not found' });
+        }
+
+        const existingCustomerEmail = await Customer.findOne({
+            where: {
+                email,
+            }
+        });
+        const existingEmployeeEmail = await Employee.findOne({
+            where: {
+                email,
+                id: {
+                    [Op.ne]: id,
+                },
+            }
+        });
+        const existingOwnerEmail = await Owner.findOne({
+            where: {
+                email,
+            }
+        });
+        const existingCustomerUser = await Customer.findOne({
+            where: {
+                username,
+            }
+        });
+        const existingEmployeeUser = await Employee.findOne({
+            where: {
+                username,
+                id: {
+                    [Op.ne]: id,
+                },
+            }
+        });
+        const existingOwnerUser = await Owner.findOne({
+            where: {
+                username,
+            }
+        });      
+
+        if (existingCustomerUser || existingEmployeeUser || existingOwnerUser) {
+            return res.status(400).json({ message: 'Username already exists' });
+        }
+
+        if (existingCustomerEmail || existingEmployeeEmail || existingOwnerEmail) {
+            return res.status(400).json({ message: 'Email already exists' });
         }
 
         // Update employee fields

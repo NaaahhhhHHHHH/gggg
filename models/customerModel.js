@@ -34,22 +34,6 @@ const Customer = sequelize.define('Customer', {
         type: DataTypes.STRING,
         allowNull: true,
     },
-    ssn: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
-    card: {
-        type: DataTypes.STRING,
-        allowNull: true,
-    },
-    cvv: {
-        type: DataTypes.INTEGER,
-        allowNull: true,
-    },
-    exp: {
-        type: DataTypes.DATE,
-        allowNull: true,
-    },
     verification: {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
@@ -62,10 +46,6 @@ const Customer = sequelize.define('Customer', {
         beforeCreate: async (customer) => {
             const salt = await bcrypt.genSalt(10);
             customer.password = await bcrypt.hash(customer.password, salt);
-            customer.ssn = await bcrypt.hash(customer.ssn, salt);
-            if (customer.card) {
-                customer.card = await bcrypt.hash(customer.card, salt);
-            }
         }
     }
 });
