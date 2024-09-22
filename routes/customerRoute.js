@@ -6,10 +6,12 @@ const {
   getCustomers,
   getCustomerById,
   updateCustomer,
-  deleteCustomer
+  deleteCustomer,
+  registerCustomer
 } = require('../controllers/customerController');
 
 router.post('/api/customer', createCustomer);
+router.post('/api/customer/register', registerCustomer);
 router.get('/api/customer', authenticateToken, getCustomers);
 router.get('/api/customer:id', authenticateToken, getCustomerById);
 router.put('/api/customer/:id', authenticateToken, updateCustomer);

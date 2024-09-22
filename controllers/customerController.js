@@ -38,6 +38,50 @@ exports.getCustomerById = async (req, res) => {
 // Create a new customer
 exports.createCustomer = async (req, res) => {
     // #swagger.tags = ['customer']
+    const { name, username, password, email, mobile, work, verification } = req.body;
+
+    try {
+                   
+        const existingCustomerEmail = await Customer.findOne({ where: { email } });
+        const existingEmployeeEmail = await Employee.findOne({ where: { email } });
+        const existingOwnerEmail = await Owner.findOne({ where: { email } });
+
+        const existingCustomerUser = await Customer.findOne({ where: { username } });
+        const existingEmployeeUser = await Employee.findOne({ where: { username } });
+        const existingOwnerUser = await Owner.findOne({ where: { username } });
+
+        if (existingCustomerUser || existingEmployeeUser || existingOwnerUser) {
+            return res.status(400).json({ message: 'Username already exists' });
+        }
+
+        if (existingCustomerEmail || existingEmployeeEmail || existingOwnerEmail) {
+            return res.status(400).json({ message: 'Email already exists' });
+        }
+
+        const newCustomer = await Customer.create({
+            name,
+            username,
+            password,
+            email,
+            mobile,
+            work,
+            verification
+            // ssn,
+            // service,
+            // card,
+            // cvv,
+            // exp,
+        });
+
+        res.status(201).json({ message: 'Customer created successfully', customer: newCustomer });
+    } catch (err) {
+        res.status(500).json({ message: 'Error creating customer', error: err.message });
+    }
+};
+
+// Create a new customer
+exports.registerCustomer = async (req, res) => {
+    // #swagger.tags = ['customer']
     const { name, username, password, email, mobile, work } = req.body;
 
     try {
