@@ -32,7 +32,7 @@ const Employee = sequelize.define('Employee', {
     },
     work: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
     },
 }, {
     timestamps: true,

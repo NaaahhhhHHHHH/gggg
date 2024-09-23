@@ -42,7 +42,7 @@ exports.login = async (req, res) => {
 
         // If user not found
         if (!user) {
-            return res.status(400).json({ message: `Username not found` });
+            return res.status(400).json({ message: `Username not found`, error: error.message });
         }
 
         let verification = true;
@@ -53,7 +53,7 @@ exports.login = async (req, res) => {
         // Check if the password is valid
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
-            return res.status(400).json({ message: 'Invalid credentials' });
+            return res.status(400).json({ message: 'Invalid credentials', error: error.message });
         }
 
         // Generate JWT token
@@ -87,3 +87,12 @@ exports.login = async (req, res) => {
         res.status(500).json({ message: 'Error while logging in', error: error.message });
     }
 };
+
+exports.auth = async (req, res) => {
+    // #swagger.tags = ['auth']
+    if (req.user && req.user.role && req.user.username && req.user.name && req.user.email && req.user.role) {
+        return res.status(200).json({ message: `Valid token` });
+    } else {
+        res.status(403).json({ message: 'Invalid Token'});
+    }
+}
