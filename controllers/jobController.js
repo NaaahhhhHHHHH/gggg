@@ -7,9 +7,7 @@ const Form = require('../models/formModel');
 exports.getAllJobs = async (req, res) => {
     // #swagger.tags = ['job']
     try {
-        const jobs = await Job.findAll({
-            include: [Customer, Service, Form], // Optionally include related models
-        });
+        const jobs = await Job.findAll();
         res.status(200).json(jobs);
     } catch (err) {
         res.status(500).json({ message: 'Error fetching jobs', error: err.message });
@@ -22,9 +20,7 @@ exports.getJobById = async (req, res) => {
     const { id } = req.params;
 
     try {
-        const job = await Job.findByPk(id, {
-            include: [Customer, Service, Form], // Optionally include related models
-        });
+        const job = await Job.findByPk(id);
 
         if (!job) {
             return res.status(404).json({ message: 'Job not found' });
@@ -39,13 +35,13 @@ exports.getJobById = async (req, res) => {
 // Create a new job
 exports.createJob = async (req, res) => {
     // #swagger.tags = ['job']
-    const { cid, sid, progress, formid, startdate, enddate, additionalprice } = req.body;
+    const { cid, sid, status, formid, budget } = req.body;
 
     try {
-        // Validate startdate and enddate
-        if (new Date(enddate) < new Date(startdate)) {
-            return res.status(400).json({ message: 'End date must be after the start date.' });
-        }
+        // // Validate startdate and enddate
+        // if (new Date(enddate) < new Date(startdate)) {
+        //     return res.status(400).json({ message: 'End date must be after the start date.' });
+        // }
 
         // Check if Customer, Service, and Form exist
         const customerExists = await Customer.findByPk(cid);
@@ -65,11 +61,9 @@ exports.createJob = async (req, res) => {
         const newJob = await Job.create({
             cid,
             sid,
-            progress,
+            status,
             formid,
-            startdate,
-            enddate,
-            additionalprice,
+            budget,
         });
 
         res.status(201).json({ message: 'Job created successfully', job: newJob });
@@ -82,7 +76,7 @@ exports.createJob = async (req, res) => {
 exports.updateJob = async (req, res) => {
     // #swagger.tags = ['job']
     const { id } = req.params;
-    const { cid, sid, progress, formid, startdate, enddate, additionalprice } = req.body;
+    const { cid, sid, status, formid, budget } = req.body;
 
     try {
         const job = await Job.findByPk(id);
@@ -91,10 +85,10 @@ exports.updateJob = async (req, res) => {
             return res.status(404).json({ message: 'Job not found' });
         }
 
-        // Validate startdate and enddate
-        if (enddate && new Date(enddate) < new Date(startdate)) {
-            return res.status(400).json({ message: 'End date must be after the start date.' });
-        }
+        // // Validate startdate and enddate
+        // if (enddate && new Date(enddate) < new Date(startdate)) {
+        //     return res.status(400).json({ message: 'End date must be after the start date.' });
+        // }
 
         // Check if Customer, Service, and Form exist
         if (cid) {
@@ -118,11 +112,11 @@ exports.updateJob = async (req, res) => {
 
         job.cid = cid || job.cid;
         job.sid = sid || job.sid;
-        job.progress = progress || job.progress;
+        job.status = status || job.status;
         job.formid = formid || job.formid;
-        job.startdate = startdate || job.startdate;
-        job.enddate = enddate || job.enddate;
-        job.additionalprice = additionalprice || job.additionalprice;
+        job.budget = budget || job.budget;
+        // job.enddate = enddate || job.enddate;
+        // job.additionalprice = additionalprice || job.additionalprice;
 
         await job.save();
         res.status(200).json({ message: 'Job updated successfully', job });

@@ -39,7 +39,7 @@ exports.getAssignmentById = async (req, res) => {
 // Create a new assignment
 exports.createAssignment = async (req, res) => {
     // #swagger.tags = ['assignment']
-    const { sid, pay1, pay2, jid, reassignment, eId } = req.body;
+    const { sid, payment, jid, reassignment, eId } = req.body;
 
     try {
         // Check if Service, Job, and Employee exist
@@ -73,17 +73,16 @@ exports.createAssignment = async (req, res) => {
 
 
         // Validate pay1 and pay2
-        if (pay1 < 0 || pay1 > 100) {
-            return res.status(400).json({ message: 'Percentage pay (pay1) must be between 0 and 100' });
-        }
-        if (pay2 < 0) {
-            return res.status(400).json({ message: 'Fixed pay (pay2) must be a non-negative number' });
-        }
+        // if (pay1 < 0 || pay1 > 100) {
+        //     return res.status(400).json({ message: 'Percentage pay (pay1) must be between 0 and 100' });
+        // }
+        // if (pay2 < 0) {
+        //     return res.status(400).json({ message: 'Fixed pay (pay2) must be a non-negative number' });
+        // }
 
         const newAssignment = await Assignment.create({
             sid,
-            pay1,
-            pay2,
+            payment,
             jid,
             reassignment,
             eId,
@@ -99,7 +98,7 @@ exports.createAssignment = async (req, res) => {
 exports.updateAssignment = async (req, res) => {
     // #swagger.tags = ['assignment']
     const { id } = req.params;
-    const { sid, pay1, pay2, jid, reassignment, eId } = req.body;
+    const { sid, payment, jid, reassignment, eId } = req.body;
 
     try {
         const assignment = await Assignment.findByPk(id);
@@ -143,16 +142,17 @@ exports.updateAssignment = async (req, res) => {
         }
 
         // Validate pay1 and pay2
-        if (pay1 < 0 || pay1 > 100) {
-            return res.status(400).json({ message: 'Percentage pay (pay1) must be between 0 and 100' });
-        }
-        if (pay2 < 0) {
-            return res.status(400).json({ message: 'Fixed pay (pay2) must be a non-negative number' });
-        }
+        // if (pay1 < 0 || pay1 > 100) {
+        //     return res.status(400).json({ message: 'Percentage pay (pay1) must be between 0 and 100' });
+        // }
+        // if (pay2 < 0) {
+        //     return res.status(400).json({ message: 'Fixed pay (pay2) must be a non-negative number' });
+        // }
 
         assignment.sid = sid || assignment.sid;
-        assignment.pay1 = (pay1 || pay1 === 0) ? pay1 : assignment.pay1;
-        assignment.pay2 = (pay2 || pay2 === 0) ? pay2 : assignment.pay2;
+        // assignment.pay1 = (pay1 || pay1 === 0) ? pay1 : assignment.pay1;
+        // assignment.pay2 = (pay2 || pay2 === 0) ? pay2 : assignment.pay2;
+        assignment.payment = payment || assignment.payment;
         assignment.jid = jid || assignment.jid;
         assignment.reassignment = (reassignment || reassignment === false) ? reassignment : assignment.reassignment;
         assignment.eId = eId || assignment.eId;

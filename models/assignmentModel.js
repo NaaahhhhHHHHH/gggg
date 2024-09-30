@@ -21,22 +21,19 @@ const Assignment = sequelize.define('Assignment', {
         allowNull: false,
         onDelete: 'CASCADE'
     },
-    pay1: {
-        type: DataTypes.FLOAT,
+    payment: {
+        type: DataTypes.JSON,
         allowNull: false,
-        defaultValue: 0.0,
         validate: {
-            min: 0,
-            max: 100,
+          notEmpty: true,
         },
-        comment: 'Pay by percentage'
     },
-    pay2: {
-        type: DataTypes.FLOAT,
-        allowNull: false,
-        defaultValue: 0.0,
-        comment: 'Fixed additional payment (not including percentage pay)'
-    },
+    // pay2: {
+    //     type: DataTypes.FLOAT,
+    //     allowNull: false,
+    //     defaultValue: 0.0,
+    //     comment: 'Fixed additional payment (not including percentage pay)'
+    // },
     jid: {
         type: DataTypes.INTEGER,
         references: {

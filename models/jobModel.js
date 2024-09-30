@@ -11,18 +11,18 @@ const Job = sequelize.define('Job', {
         primaryKey: true,
         allowNull: false,
     },
-    additionalprice: {
-        type: DataTypes.FLOAT,
-        allowNull: false,
-        defaultValue: 0,
-        comment: 'Additional service fee'
-    },
-    monthlyprice: {
-        type: DataTypes.FLOAT,
-        allowNull: false,
-        defaultValue: 0,
-        comment: 'Monthly service fee'
-    },
+    // additionalprice: {
+    //     type: DataTypes.FLOAT,
+    //     allowNull: false,
+    //     defaultValue: 0,
+    //     comment: 'Additional service fee'
+    // },
+    // monthlyprice: {
+    //     type: DataTypes.FLOAT,
+    //     allowNull: false,
+    //     defaultValue: 0,
+    //     comment: 'Monthly service fee'
+    // },
     cid: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -41,16 +41,27 @@ const Job = sequelize.define('Job', {
         },
         onDelete: 'CASCADE'
     },
-    progress: {
+    budget: {
         type: DataTypes.FLOAT,
         allowNull: false,
-        defaultValue: 0.0,
-        validate: {
-            min: 0,
-            max: 100,
-        },
-        comment: 'Progress percentage of job'
+        defaultValue: 0,
     },
+    status: {
+        type: DataTypes.ENUM('Pending', 'Preparing', 'Running', 'Complete', 'Maintain'),
+        allowNull: false,
+        defaultValue: 'Pending',
+        comment: 'The current status of the job',
+    },
+    // progress: {
+    //     type: DataTypes.FLOAT,
+    //     allowNull: false,
+    //     defaultValue: 0.0,
+    //     validate: {
+    //         min: 0,
+    //         max: 100,
+    //     },
+    //     comment: 'Progress percentage of job'
+    // },
     formid: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -60,23 +71,23 @@ const Job = sequelize.define('Job', {
         },
         onDelete: 'CASCADE'
     },
-    startdate: {
-        type: DataTypes.DATE,
-        allowNull: false,
-        comment: 'The start date of the job',
-    },
-    enddate: {
-        type: DataTypes.DATE,
-        allowNull: true,
-        comment: 'The end date of the job. Can be null if the job is ongoing.',
-        validate: {
-            isAfterStartDate(value) {
-                if (value && this.startdate && value < this.startdate) {
-                    throw new Error('End date must be after the start date.');
-                }
-            }
-        }
-    }
+    // startdate: {
+    //     type: DataTypes.DATE,
+    //     allowNull: false,
+    //     comment: 'The start date of the job',
+    // },
+    // enddate: {
+    //     type: DataTypes.DATE,
+    //     allowNull: true,
+    //     comment: 'The end date of the job. Can be null if the job is ongoing.',
+    //     validate: {
+    //         isAfterStartDate(value) {
+    //             if (value && this.startdate && value < this.startdate) {
+    //                 throw new Error('End date must be after the start date.');
+    //             }
+    //         }
+    //     }
+    // }
 }, {
     timestamps: true,
     tableName: 'jobs'

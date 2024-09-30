@@ -1,4 +1,6 @@
 const Form = require('../models/formModel');
+const Job = require('../models/jobModel');
+const Service = require('../models/serviceModel');
 
 // Get all forms
 exports.getAllForms = async (req, res) => {
@@ -40,7 +42,14 @@ exports.createForm = async (req, res) => {
             sid,
             data,
         });
-
+        const service = await Service.findByPk(sid);
+        const newJob = await Job.create({
+            cid,
+            sid,
+            budget: service.price,
+            status: 'Pending',
+            formid: newForm.id
+        });
         res.status(201).json({ message: 'Form created successfully', form: newForm });
     } catch (err) {
         res.status(500).json({ message: 'Error creating form', error: err.message });
