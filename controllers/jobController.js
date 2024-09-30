@@ -91,24 +91,24 @@ exports.updateJob = async (req, res) => {
         // }
 
         // Check if Customer, Service, and Form exist
-        if (cid) {
-            const customerExists = await Customer.findByPk(cid);
-            if (!customerExists) {
-                return res.status(404).json({ message: 'Customer not found' });
-            }
-        }
-        if (sid) {
-            const serviceExists = await Service.findByPk(sid);
-            if (!serviceExists) {
-                return res.status(404).json({ message: 'Service not found' });
-            }
-        }
-        if (formid) {
-            const formExists = await Form.findByPk(formid);
-            if (!formExists) {
-                return res.status(404).json({ message: 'Form not found' });
-            }
-        }
+        // if (cid) {
+        //     const customerExists = await Customer.findByPk(cid);
+        //     if (!customerExists) {
+        //         return res.status(404).json({ message: 'Customer not found' });
+        //     }
+        // }
+        // if (sid) {
+        //     const serviceExists = await Service.findByPk(sid);
+        //     if (!serviceExists) {
+        //         return res.status(404).json({ message: 'Service not found' });
+        //     }
+        // }
+        // if (formid) {
+        //     const formExists = await Form.findByPk(formid);
+        //     if (!formExists) {
+        //         return res.status(404).json({ message: 'Form not found' });
+        //     }
+        // }
 
         job.cid = cid || job.cid;
         job.sid = sid || job.sid;

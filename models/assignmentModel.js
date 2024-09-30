@@ -48,6 +48,17 @@ const Assignment = sequelize.define('Assignment', {
         defaultValue: false,
         allowNull: false,
     },
+    status: {
+        type: DataTypes.ENUM('Accepted', 'Decline', 'Waitting', 'Expired'),
+        allowNull: false,
+        defaultValue: 'Waitting',
+        comment: 'The current status of the assignment',
+    },
+    expire: {
+        type: DataTypes.NUMBER,
+        allowNull: false,
+        defaultValue: 3,
+    },
     eId: {
         type: DataTypes.INTEGER,
         allowNull: false,
