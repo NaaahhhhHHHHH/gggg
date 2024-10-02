@@ -46,12 +46,6 @@ const Job = sequelize.define('Job', {
         allowNull: false,
         defaultValue: 0,
     },
-    status: {
-        type: DataTypes.ENUM('Pending', 'Preparing', 'Running', 'Complete', 'Maintain'),
-        allowNull: false,
-        defaultValue: 'Pending',
-        comment: 'The current status of the job',
-    },
     // progress: {
     //     type: DataTypes.FLOAT,
     //     allowNull: false,
@@ -88,6 +82,12 @@ const Job = sequelize.define('Job', {
     //         }
     //     }
     // }
+    status: {
+        type: DataTypes.ENUM('Pending', 'Preparing', 'Running', 'Complete', 'Maintain'),
+        allowNull: false,
+        defaultValue: 'Pending',
+        comment: 'The current status of the job',
+    },
 }, {
     timestamps: true,
     tableName: 'jobs'

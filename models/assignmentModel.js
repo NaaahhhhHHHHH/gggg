@@ -48,18 +48,12 @@ const Assignment = sequelize.define('Assignment', {
         defaultValue: false,
         allowNull: false,
     },
-    status: {
-        type: DataTypes.ENUM('Accepted', 'Decline', 'Waitting', 'Expired'),
-        allowNull: false,
-        defaultValue: 'Waitting',
-        comment: 'The current status of the assignment',
-    },
     expire: {
-        type: DataTypes.NUMBER,
-        allowNull: false,
-        defaultValue: 3,
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        defaultValue: 1,
     },
-    eId: {
+    eid: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
@@ -68,17 +62,23 @@ const Assignment = sequelize.define('Assignment', {
         },
         onDelete: 'CASCADE'
     },
+    status: {
+        type: DataTypes.ENUM('Accepted', 'Decline', 'Waitting', 'Expired'),
+        allowNull: false,
+        defaultValue: 'Waitting',
+        comment: 'The current status of the assignment',
+    },
 }, {
     tableName: 'assignments',
     timestamps: true,
     indexes: [
         {
             unique: true,
-            fields: ['jid', 'eId']
+            fields: ['jid', 'eid']
         }
     ]
 });
 
-Assignment.belongsTo(Employee, { foreignKey: 'eId' });
+Assignment.belongsTo(Employee, { foreignKey: 'eid' });
 
 module.exports = Assignment;

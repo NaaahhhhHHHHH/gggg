@@ -7,9 +7,7 @@ const Job = require('../models/jobModel');
 exports.getAllAssignments = async (req, res) => {
     // #swagger.tags = ['assignment']
     try {
-        const assignments = await Assignment.findAll({
-            include: [Employee, Service, Job], // Optionally include related models
-        });
+        const assignments = await Assignment.findAll();
         res.status(200).json(assignments);
     } catch (err) {
         res.status(500).json({ message: 'Error fetching assignments', error: err.message });
@@ -22,9 +20,7 @@ exports.getAssignmentById = async (req, res) => {
     const { id } = req.params;
 
     try {
-        const assignment = await Assignment.findByPk(id, {
-            include: [Employee, Service, Job], // Optionally include related models
-        });
+        const assignment = await Assignment.findByPk(id);
 
         if (!assignment) {
             return res.status(404).json({ message: 'Assignment not found' });
@@ -39,13 +35,15 @@ exports.getAssignmentById = async (req, res) => {
 // Create a new assignment
 exports.createAssignment = async (req, res) => {
     // #swagger.tags = ['assignment']
-    const { sid, payment, jid, reassignment, eId } = req.body;
+    const { sid, payment, jid, reassignment, eid, status } = req.body;
 
     try {
         // Check if Service, Job, and Employee exist
         const serviceExists = await Service.findByPk(sid);
         const jobExists = await Job.findByPk(jid);
-        const employeeExists = await Employee.findByPk(eId);
+        const employeeExists = await Employee.findByPk(eid);
+
+        const assignList = await Assignment.findAll();
         
         if (!serviceExists) {
             return res.status(404).json({ message: 'Service not found' });
@@ -53,8 +51,15 @@ exports.createAssignment = async (req, res) => {
         if (!jobExists) {
             return res.status(404).json({ message: 'Job not found' });
         }
+        
         if (!employeeExists) {
             return res.status(404).json({ message: 'Employee not found' });
+        }
+
+        if (assignList.find( a => 
+            a.jid == jid && a.eid == eid
+        )) {
+            return res.status(404).json({ message: 'The employee already assigned to this job' });
         }
 
         if (req.user.role == 'employee') {
@@ -62,7 +67,7 @@ exports.createAssignment = async (req, res) => {
                 return res.status(403).json({ message: 'Permission denied' });
             }
             const filter = {
-                eId: eId,
+                eid: eid,
                 jid: req.user.id
             };
             const Assignments = await Assignment.findOne({ where: filter });
@@ -85,7 +90,8 @@ exports.createAssignment = async (req, res) => {
             payment,
             jid,
             reassignment,
-            eId,
+            eid,
+            status
         });
 
         res.status(201).json({ message: 'Assignment created successfully', assignment: newAssignment });
@@ -98,7 +104,7 @@ exports.createAssignment = async (req, res) => {
 exports.updateAssignment = async (req, res) => {
     // #swagger.tags = ['assignment']
     const { id } = req.params;
-    const { sid, payment, jid, reassignment, eId } = req.body;
+    const { sid, payment, jid, reassignment, eid, status } = req.body;
 
     try {
         const assignment = await Assignment.findByPk(id);
@@ -120,8 +126,8 @@ exports.updateAssignment = async (req, res) => {
                 return res.status(404).json({ message: 'Job not found' });
             }
         }
-        if (eId) {
-            const employeeExists = await Employee.findByPk(eId);
+        if (eid) {
+            const employeeExists = await Employee.findByPk(eid);
             if (!employeeExists) {
                 return res.status(404).json({ message: 'Employee not found' });
             }
@@ -132,7 +138,7 @@ exports.updateAssignment = async (req, res) => {
                 return res.status(403).json({ message: 'Permission denied' });
             }
             const filter = {
-                eId: eId,
+                eid: eid,
                 jid: req.user.id
             };
             const Assignments = await Assignment.findOne({ where: filter });
@@ -155,7 +161,8 @@ exports.updateAssignment = async (req, res) => {
         assignment.payment = payment || assignment.payment;
         assignment.jid = jid || assignment.jid;
         assignment.reassignment = (reassignment || reassignment === false) ? reassignment : assignment.reassignment;
-        assignment.eId = eId || assignment.eId;
+        assignment.eid = eid || assignment.eid;
+        assignment.status = status || assignment.status;
 
         await assignment.save();
         res.status(200).json({ message: 'Assignment updated successfully', assignment });
