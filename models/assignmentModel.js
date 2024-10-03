@@ -3,6 +3,7 @@ const { sequelize } = require('../config/db');
 const Employee = require('./employeeModel');
 const Service = require('./serviceModel');
 const Job = require('./jobModel');
+const { JoinSQLFragmentsError } = require('sequelize/lib/utils/join-sql-fragments');
 
 const Assignment = sequelize.define('Assignment', {
     id: {
@@ -68,6 +69,15 @@ const Assignment = sequelize.define('Assignment', {
         defaultValue: 'Waitting',
         comment: 'The current status of the assignment',
     },
+    assignby: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        references: {
+            model: Employee,
+            key: 'id',
+        },
+        onDelete: 'CASCADE'
+    },
 }, {
     tableName: 'assignments',
     timestamps: true,
@@ -80,5 +90,5 @@ const Assignment = sequelize.define('Assignment', {
 });
 
 Assignment.belongsTo(Employee, { foreignKey: 'eid' });
-
+Assignment.belongsTo(Job, { foreignKey: 'jid' });
 module.exports = Assignment;

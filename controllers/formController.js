@@ -47,6 +47,7 @@ exports.createForm = async (req, res) => {
             cid,
             sid,
             budget: service.price,
+            currentbudget: service.price,
             status: 'Pending',
             formid: newForm.id
         });

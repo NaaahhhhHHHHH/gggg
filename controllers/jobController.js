@@ -2,12 +2,20 @@ const Job = require('../models/jobModel');
 const Customer = require('../models/customerModel');
 const Service = require('../models/serviceModel');
 const Form = require('../models/formModel');
+const Assignment = require('../models/assignmentModel');
 
 // Get all jobs
 exports.getAllJobs = async (req, res) => {
     // #swagger.tags = ['job']
     try {
-        const jobs = await Job.findAll();
+        let jobs = await Job.findAll();
+        if (req.user.role == "employee") {
+            let assignList = await Assignment.findAll();
+            assignList = assignList ? assignList : []
+            assignList = assignList.filter(r => r.eid == req.user.id)
+            let jobList = assignList.map(r => r.jid)
+            jobs = jobs.filter(r => jobList.includes(r.id))
+        }
         res.status(200).json(jobs);
     } catch (err) {
         res.status(500).json({ message: 'Error fetching jobs', error: err.message });
@@ -64,6 +72,7 @@ exports.createJob = async (req, res) => {
             status,
             formid,
             budget,
+            currentbudget: budget
         });
 
         res.status(201).json({ message: 'Job created successfully', job: newJob });
@@ -80,9 +89,21 @@ exports.updateJob = async (req, res) => {
 
     try {
         const job = await Job.findByPk(id);
-
         if (!job) {
             return res.status(404).json({ message: 'Job not found' });
+        }
+        let assignList = await Assignment.findAll();
+        assignList = assignList ? assignList : []
+        assignList = assignList.filter(r => r.jid == id)
+        if (req.user.role == 'employee') {
+            let selfAssign = assignList.find(r => r.eid == req.user.id)
+            if (!selfAssign) {
+                return res.status(403).json({ message: 'Permission denied' });
+            }
+        }
+        job.currentbudget += budget - job.budget
+        if (job.currentbudget < 0) {
+            return res.status(404).json({ message: "Job 's budget is lower than the total assigned budget" });
         }
 
         // // Validate startdate and enddate
@@ -132,6 +153,15 @@ exports.deleteJob = async (req, res) => {
 
     try {
         const job = await Job.findByPk(id);
+        if (req.user.role == 'employee') {
+            let assignList = await Assignment.findAll();
+            assignList = assignList ? assignList : []
+            assignList = assignList.filter(r => r.jid == id)
+            let selfAssign = assignList.find(r => r.eid == req.user.id)
+            if (!selfAssign) {
+                return res.status(403).json({ message: 'Permission denied' });
+            }
+        }
 
         if (!job) {
             return res.status(404).json({ message: 'Job not found' });

@@ -46,6 +46,11 @@ const Job = sequelize.define('Job', {
         allowNull: false,
         defaultValue: 0,
     },
+    currentbudget: {
+        type: DataTypes.FLOAT,
+        allowNull: false,
+        defaultValue: 0,
+    },
     // progress: {
     //     type: DataTypes.FLOAT,
     //     allowNull: false,
