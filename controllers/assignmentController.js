@@ -96,7 +96,7 @@ exports.createAssignment = async (req, res) => {
         }
 
         if (req.user.role == 'employee') {
-            const selfAssign = assignList.find(r => r.eid == req.user.id)
+            const selfAssign = assignList.find(r => r.eid == req.user.id && jid == r.jid)
             if (!selfAssign || !selfAssign.reassignment) {
                 return res.status(403).json({
                     message: 'Permission denied'
@@ -110,6 +110,10 @@ exports.createAssignment = async (req, res) => {
             selfAssign.payment.currentbudget -= payment.budget
             selfAssign.changed("payment", true)
             await selfAssign.save()
+            if (jobExists.status == 'Pending') {
+                jobExists.status = 'Preparing'
+                await jobExists.save()
+            }
         }
         if (req.user.role == 'owner') {
             if (payment.budget > jobExists.currentbudget) {
@@ -119,6 +123,9 @@ exports.createAssignment = async (req, res) => {
             }
             payment.currentbudget = payment.budget
             jobExists.currentbudget -= payment.budget
+            if (jobExists.status == 'Pending') {
+                jobExists.status = 'Preparing'
+            }
             await jobExists.save()
         }
         // Validate pay1 and pay2
@@ -192,6 +199,7 @@ exports.updateAssignment = async (req, res) => {
                 });
             }
         }
+
         if (eid) {
             const employeeExists = await Employee.findByPk(eid);
             if (!employeeExists) {
@@ -209,37 +217,52 @@ exports.updateAssignment = async (req, res) => {
             }
         }
 
-        if (!assignment.assignby && payment) {
-            let job = await Job.findByPk(assignment.jid);
-            assignment.payment.currentbudget += payment.budget - assignment.payment.budget
-            if (assignment.payment.currentbudget < 0) {
-                return res.status(404).json({
-                    message: "This budget is lower than the total children assigned budget"
-                })
-            }
-            job.currentbudget += assignment.payment.budget - payment.budget
-            if (job.currentbudget < 0) {
-                return res.status(404).json({
-                    message: 'Total budget limit exceeded maximum'
-                })
-            }
-            await job.save()
-        } else {
-            let parrentAssign = await Assignment.findOne({
+        if (eid && eid != assignment.eid && !assignment.assignby) {
+            let assignChilds = await Assignment.findAll({
                 where: {
-                    eid: assignment.assignby,
+                    assignby: assignment.eid,
                     jid: assignment.jid
                 }
             })
-            if (parrentAssign) {
-                parrentAssign.payment.currentbudget += assignment.payment.budget - payment.budget
-                if (parrentAssign.payment.currentbudget < 0) {
+            for (let assign of assignChilds) {
+                assign.assignby = eid
+                assign.save()
+            }
+        }
+
+        if (payment) {
+            payment.currentbudget = assignment.payment.currentbudget + payment.budget - assignment.payment.budget
+            if (!assignment.assignby) {
+                let job = await Job.findByPk(assignment.jid);
+                if (payment.currentbudget < 0) {
+                    return res.status(404).json({
+                        message: "This budget is lower than the total children assigned budget"
+                    })
+                }
+                job.currentbudget += assignment.payment.budget - payment.budget
+                if (job.currentbudget < 0) {
                     return res.status(404).json({
                         message: 'Total budget limit exceeded maximum'
                     })
                 }
-                parrentAssign.changed("payment", true)
-                await parrentAssign.save()
+                await job.save()
+            } else {
+                let parrentAssign = await Assignment.findOne({
+                    where: {
+                        eid: assignment.assignby,
+                        jid: assignment.jid
+                    }
+                })
+                if (parrentAssign) {
+                    parrentAssign.payment.currentbudget += assignment.payment.budget - payment.budget
+                    if (parrentAssign.payment.currentbudget < 0) {
+                        return res.status(404).json({
+                            message: 'Total budget limit exceeded maximum'
+                        })
+                    }
+                    parrentAssign.changed("payment", true)
+                    await parrentAssign.save()
+                }
             }
         }
 
@@ -296,12 +319,13 @@ exports.deleteAssignment = async (req, res) => {
                 });
             }
         }
+        
         if (!assignment.assignby) {
             let job = await Job.findByPk(assignment.jid)
             job.currentbudget += assignment.payment.budget
             await Assignment.destroy({
                 where: {
-                    assignby: assignment.id,
+                    assignby: assignment.eid,
                     jid: assignment.jid
                 }
             })

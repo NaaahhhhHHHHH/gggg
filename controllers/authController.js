@@ -53,7 +53,7 @@ exports.login = async (req, res) => {
         // Check if the password is valid
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
-            return res.status(400).json({ message: 'Invalid credentials', error: error.message });
+            return res.status(401).json({ message: 'Invalid credentials', error: error.message });
         }
 
         // Generate JWT token
@@ -93,6 +93,6 @@ exports.auth = async (req, res) => {
     if (req.user && req.user.role && req.user.username && req.user.name && req.user.email && req.user.role) {
         return res.status(200).json({ message: `Valid token` });
     } else {
-        res.status(403).json({ message: 'Invalid Token'});
+        res.status(401).json({ message: 'Invalid Token'});
     }
 }
