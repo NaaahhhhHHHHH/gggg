@@ -9,10 +9,9 @@ const { Op } = require('sequelize');
 exports.getCustomers = async (req, res) => {
     // #swagger.tags = ['customer']
     try {
-        const customers = await Customer.findAll();
-        customers.forEach(r => {
-            r.password = ''
-        })
+        const customers = await Customer.findAll({
+            attributes: { exclude: ['password'] },
+          });
         res.json(customers);
     } catch (err) {
         res.status(500).json({ message: 'Error fetching customers', error: err.message });
@@ -29,6 +28,7 @@ exports.getCustomerById = async (req, res) => {
         if (!customer) {
             return res.status(404).json({ message: 'Customer not found' });
         }
+        customer.password=""
         res.status(200).json(customer);
     } catch (err) {
         res.status(500).json({ message: 'Error fetching Customer', error: err.message });

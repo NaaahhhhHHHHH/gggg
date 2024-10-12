@@ -26,7 +26,7 @@ app.use('/', require('./routes/ownerRoute'));
 app.use('/', require('./routes/authRoute'));
 app.use('/', require('./routes/assignmentRoute'));
 
-sequelize.sync({ alter: true })
+sequelize.sync({ alter: false })
   .then(() => {
     console.log('Database & tables created!');
   })

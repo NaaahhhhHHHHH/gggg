@@ -3,6 +3,7 @@ const Customer = require('../models/customerModel');
 const Service = require('../models/serviceModel');
 const Form = require('../models/formModel');
 const Assignment = require('../models/assignmentModel');
+const { Op } = require('sequelize');
 
 // Get all jobs
 exports.getAllJobs = async (req, res) => {
@@ -171,5 +172,110 @@ exports.deleteJob = async (req, res) => {
         res.status(200).json({ message: 'Job deleted successfully' });
     } catch (err) {
         res.status(500).json({ message: 'Error deleting job', error: err.message });
+    }
+};
+
+// get dashboard data
+exports.getJobStatistic = async (req, res) => {
+    // #swagger.tags = ['job']
+    let { year } = req.params;
+    year = parseInt(year)
+
+    try {
+
+        const jobs = await Job.findAll({
+            where: {
+                status: {
+                    [Op.ne]: 'Pending',
+                },
+            }
+        });
+        const assigns = await Assignment.findAll({
+            where: {
+                assignby: null,
+                status: 'Accepted'
+            }
+        });
+        const customers = await Customer.findAll();
+        let data = {
+            user: {
+                total: 0,
+                totalLast: 0,
+                percent: 0,
+                month: [0,0,0,0,0,0,0,0,0,0,0,0]
+            },
+            income: {
+                total: 0,
+                totalLast: 0,
+                percent: 0,
+                month: [0,0,0,0,0,0,0,0,0,0,0,0]
+            },
+            salary: {
+                total: 0,
+                totalLast: 0,
+                percent: 0,
+                month: [0,0,0,0,0,0,0,0,0,0,0,0]
+            },
+            profit: {
+                total: 0,
+                totalLast: 0,
+                percent: 0,
+                month: [0,0,0,0,0,0,0,0,0,0,0,0]
+            }
+        }
+
+        const startCurrent = new Date(`${year}-1-1`).getTime()
+        const endCurrent = new Date(`${year+1}-1-1`).getTime()
+        const startLast = new Date(`${year-1}-1-1`).getTime()
+        const endLast = new Date(`${year}-1-1`).getTime()
+        let listMonth = []
+
+        jobs.forEach(j => {
+            let dateJ = new Date(j.createdAt).getTime()
+            let month = new Date(j.createdAt).getMonth()
+            if (startCurrent <= dateJ && dateJ < endCurrent) {
+                data.income.total += j.budget
+                data.income.month[month-1] += j.budget
+            } else if (startLast <= dateJ && dateJ < endLast) {
+                data.income.totalLast += j.budget
+            }
+        })
+        data.income.percent = data.income.totalLast ? (data.income.total - data.income.totalLast) / data.income.totalLast : 'last0'
+
+        assigns.forEach(a => {
+            let dateJ = new Date(a.createdAt).getTime()
+            let month = new Date(a.createdAt).getMonth()
+            if (startCurrent <= dateJ && dateJ < endCurrent) {
+                data.salary.total += a.payment.budget
+                data.salary.month[month-1] += a.payment.budget
+            } else if (startLast <= dateJ && dateJ < endLast) {
+                data.salary.totalLast += j.budget
+            }
+        })
+        data.salary.percent = data.salary.totalLast ? (data.salary.total - data.salary.totalLast) / data.salary.totalLast : 'last0'
+
+        data.profit.total = data.income.total - data.salary.total
+        data.profit.totalLast = data.income.totalLast - data.salary.totalLast
+        data.profit.percent = data.profit.totalLast ? (data.profit.total - data.profit.totalLast) / data.profit.totalLast : 'last0'
+        data.profit.month.forEach((m,index) => {
+            data.profit.month[index] += data.income.month[index] - data.salary.month[index]
+        })
+
+        customers.forEach(c => {
+            let dateJ = new Date(c.createdAt).getTime()
+            let month = new Date(c.createdAt).getMonth()
+            if (startCurrent <= dateJ && dateJ < endCurrent) {
+                data.user.total += 1
+                data.user.month[month-1] += 1
+            } else if (startLast <= dateJ && dateJ < endLast) {
+                data.user.totalLast += 1
+            }
+        })
+        data.user.percent = data.user.totalLast ? (data.user.total - data.user.totalLast) / data.user.totalLast : 'last0'
+
+        res.status(200).json(data);
+
+    } catch (err) {
+        res.status(500).json({ message: 'Error get statistical table', error: err.message });
     }
 };

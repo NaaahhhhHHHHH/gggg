@@ -9,10 +9,9 @@ const { Op } = require('sequelize');
 exports.getEmployees = async (req, res) => {
     // #swagger.tags = ['employee']
     try {
-        const employees = await Employee.findAll();
-        employees.forEach(r => {
-            r.password = ''
-        })
+        const employees = await Employee.findAll({
+            attributes: { exclude: ['password'] },
+          });
         res.status(200).json(employees);
     } catch (err) {
         res.status(500).json({ message: 'Error fetching employee list', error: err.message });
@@ -29,6 +28,7 @@ exports.getEmployeeById = async (req, res) => {
         if (!employee) {
             return res.status(404).json({ message: 'Employee not found' });
         }
+        employee.password = "";
         res.status(200).json(employee);
     } catch (err) {
         res.status(500).json({ message: 'Error fetching employee', error: err.message });

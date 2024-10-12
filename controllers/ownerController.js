@@ -9,10 +9,9 @@ const { Op } = require('sequelize');
 exports.getAllOwners = async (req, res) => {
     // #swagger.tags = ['owner']
     try {
-        const owners = await Owner.findAll();
-        owners.forEach(r => {
-            r.password = ''
-        })
+        const owners = await Owner.findAll({
+            attributes: { exclude: ['password'] },
+          });
         res.status(200).json(owners);
     } catch (err) {
         res.status(500).json({ message: 'Error fetching owners', error: err.message });
@@ -31,6 +30,7 @@ exports.getOwnerById = async (req, res) => {
             return res.status(404).json({ message: 'Owner not found' });
         }
 
+        owner.password = "";
         res.status(200).json(owner);
     } catch (err) {
         res.status(500).json({ message: 'Error fetching owner', error: err.message });

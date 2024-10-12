@@ -64,9 +64,9 @@ const Assignment = sequelize.define('Assignment', {
         onDelete: 'CASCADE'
     },
     status: {
-        type: DataTypes.ENUM('Accepted', 'Decline', 'Waitting', 'Expired'),
+        type: DataTypes.ENUM('Accepted', 'Decline', 'Waiting'),
         allowNull: false,
-        defaultValue: 'Waitting',
+        defaultValue: 'Waiting',
         comment: 'The current status of the assignment',
     },
     assignby: {
