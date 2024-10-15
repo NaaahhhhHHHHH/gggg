@@ -59,7 +59,6 @@ exports.login = async (req, res) => {
         if (!user) {
             return res.status(400).json({
                 message: `Username not found`,
-                error: error.message
             });
         }
 
@@ -73,7 +72,6 @@ exports.login = async (req, res) => {
         if (!isMatch) {
             return res.status(401).json({
                 message: 'Invalid credentials',
-                error: error.message
             });
         }
 

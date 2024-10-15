@@ -15,7 +15,14 @@ app.use(express.json());
 
 // Define Routes
 app.use(cors({
-  origin: 'http://localhost:3000'
+  origin: function (origin, callback) {
+    const allowedOrigins = ['http://localhost:3000', 'https://crm.allinclicks.net', 'https://crmapi.allinclicks.net'];
+    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  }
 }));
 app.use('/', require('./routes/customerRoute'));
 app.use('/', require('./routes/serviceRoute'));
